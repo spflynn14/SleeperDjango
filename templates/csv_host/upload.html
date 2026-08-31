@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload CSV File - CSV Host{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Upload New CSV File</h1>
+            <a href="{% url 'csv_host:list' %}" class="btn btn-secondary btn-sm">&larr; Back to Files</a>
+        </div>
+
+        <form method="post" action="{% url 'csv_host:upload' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="id_file">Select .csv File <span style="color: var(--danger);">*</span></label>
+                {{ form.file }}
+                {% if form.file.errors %}
+                    <div style="color: var(--danger); font-size: 0.8rem; margin-top: 0.25rem;">
+                        {{ form.file.errors.0 }}
+                    </div>
+                {% endif %}
+                <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">
+                    Upload standard comma-separated or tabular data encoded in UTF-8 or ASCII.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="id_title">Title (Optional)</label>
+                {{ form.title }}
+                <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.25rem;">
+                    If left blank, the uploaded filename will be used.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="id_description">Description (Optional)</label>
+                {{ form.description }}
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Upload & Generate Formula</button>
+                <a href="{% url 'csv_host:list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
